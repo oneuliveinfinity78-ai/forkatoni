@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun Ka Toni</title>
+    
+    <!-- Mengimpor Font Google untuk nuansa elegan -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & GLOBAL VARIABLES --- */
+        :root {
+            --bg-color: #fdfbf7; /* Putih gading hangat */
+            --primary-gold: #c5a059;
+            --primary-dark: #4a403a; /* Coklat tua elegan */
+            --text-color: #2c2c2c;
+            --paper-color: #fffaf0;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-deep: 0 20px 50px rgba(0, 0, 0, 0.15);
+            --transition-speed: 1.2s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 50%, #ffffff 0%, #fdfbf7 100%);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden; /* Mencegah scrollbar pada body utama */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- LAYOUT UTAMA --- */
+        main {
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- SEKSI 1: KARTU UCAPAN (KANAN) --- */
+        .intro-section {
+            position: absolute;
+            right: 10%; /* Posisi awal di kanan */
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            z-index: 10;
+            transition: all var(--transition-speed) cubic-bezier(0.65, 0, 0.35, 1);
+            width: 350px;
+        }
+
+        .intro-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .intro-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        /* --- AMPLOP CSS --- */
+        .envelope-wrapper {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .envelope-wrapper:hover .click-hint {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #e0cda7;
+            border-radius: 8px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Bagian dalam amplop */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 140px 110px 140px;
+            border-color: transparent transparent #d4c0a0 transparent;
+            z-index: 3;
+        }
+
+        /* Flap amplop (tutup atas) */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 100px 140px 80px 140px;
+            border-color: #f0e0c0 transparent transparent transparent;
+            transform-origin: top;
+            transition: transform 0.6s ease 0.2s; /* Delay sedikit */
+            z-index: 4;
+        }
+
+        /* Kartu kecil di dalam amplop */
+        .envelope-card {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 90%;
+            background: #fff;
+            border: 1px solid #ddd;
+            z-index: 2;
+            transition: transform 0.6s ease 0.8s; /* Muncul setelah flap buka */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Great Vibes', cursive;
+            color: var(--primary-gold);
+            font-size: 2rem;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+
+        .click-hint {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1px;
+        }
+
+        /* --- SEKSI 2: PESAN SCROLL (KIRI) --- */
+        .message-section {
+            position: absolute;
+            left: 5%; /* Posisi target di kiri */
+            top: 50%;
+            transform: translateY(-50%) translateX(-100px); /* Awalnya tersembunyi di kiri layar */
+            opacity: 0;
+            width: 500px; /* Lebar scroll */
+            height: 80vh; /* Tinggi scroll */
+            max-height: 700px;
+            z-index: 5;
+            transition: all var(--transition-speed) cubic-bezier(0.65, 0, 0.35, 1) 0.5s; /* Delay transisi masuk */
+            pointer-events: none; /* Tidak bisa diklik sebelum aktif */
+        }
+
+        /* Desain Kertas Scroll */
+        .scroll-container {
+            width: 100%;
+            height: 100%;
+            background-color: var(--paper-color);
+            background-image: repeating-linear-gradient(
+                to bottom,
+                transparent,
+                transparent 39px,
+                rgba(197, 160, 89, 0.1) 40px
+            ); /* Garis-garis halus */
+            border-radius: 4px;
+            box-shadow: 
+                inset 0 0 60px rgba(189, 154, 93, 0.1),
+                5px 5px 20px rgba(0,0,0,0.1),
+                -5px 0 20px rgba(0,0,0,0.1); /* Shadow kiri-kanan */
+            padding: 3rem 2.5rem;
+            overflow-y: auto; /* Scrollable jika teks panjang */
+            position: relative;
+            border-top: 10px solid #8b5a2b; /* Batang kayu atas */
+            border-bottom: 10px solid #8b5a2b; /* Batang kayu bawah */
+        }
+
+        /* Styling Scrollbar kustom agar elegan */
+        .scroll-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scroll-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scroll-container::-webkit-scrollbar-thumb {
+            background-color: #d4c0a0;
+            border-radius: 10px;
+        }
+
+        /* Isi Surat */
+        .scroll-content h2 {
+            font-family: 'Great Vibes', cursive;
+            color: var(--primary-gold);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .scroll-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+            text-align: justify;
+            color: #555;
+        }
+
+        .scroll-content .closing {
+            text-align: right;
+            margin-top: 2rem;
+            font-style: italic;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* Tombol Tutup/Kembali (Opsional) */
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: var(--primary-dark);
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        .close-btn:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* --- ANIMATION STATES --- */
+        
+        /* Saat kelas 'active' ditambahkan ke body/parent */
+        body.is-open .intro-section {
+            opacity: 0;
+            transform: translateY(-50%) translateX(100px); /* Bergerak keluar ke kanan */
+            pointer-events: none;
+        }
+
+        body.is-open .envelope-flap {
+            transform: rotateX(180deg); /* Buka amplop */
+            z-index: 0; /* Pindah ke belakang */
+        }
+
+        body.is-open .envelope-card {
+            transform: translateX(-50%) translateY(-60px); /* Surat naik keluar */
+        }
+
+        body.is-open .message-section {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0); /* Masuk dari kiri ke posisi */
+            pointer-events: auto;
+        }
+
+        /* Dekorasi background */
+        .decoration {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+        }
+        .dec-1 {
+            width: 300px;
+            height: 300px;
+            background: #fae1c8;
+            top: 10%;
+            right: 20%;
+        }
+        .dec-2 {
+            width: 400px;
+            height: 400px;
+            background: #e6dace;
+            bottom: 10%;
+            left: 10%;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .intro-section {
+                right: 50%;
+                transform: translateY(-50%) translateX(50%);
+                width: 100%;
+                padding: 0 20px;
+            }
+
+            .message-section {
+                left: 50%;
+                top: 55%; /* Turun sedikit */
+                transform: translateY(-50%) translateX(-50%) scale(0.9);
+                width: 90%;
+                max-height: 70vh;
+                opacity: 0;
+            }
+
+            body.is-open .intro-section {
+                transform: translateY(-50%) translateX(50%) scale(0.9);
+                opacity: 0; /* Fade out di tengah */
+            }
+            
+            body.is-open .message-section {
+                transform: translateY(-50%) translateX(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Elemen Dekorasi Latar Belakang -->
+    <div class="decoration dec-1"></div>
+    <div class="decoration dec-2"></div>
+
+    <main>
+        <!-- BAGIAN KANAN: KARTU & AMPLOP -->
+        <section class="intro-section">
+            <h1 class="intro-title">HAPPY BIRTHDAY<br>KA TONI!!!</h1>
+            <p class="intro-subtitle">Ini aku ada sedikit kata untuk Ka Toni</p>
+            
+            <div class="envelope-wrapper" id="envelopeBtn">
+                <div class="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-card">
+                        For You
+                    </div>
+                </div>
+            </div>
+            
+            <p class="click-hint">klik surat di atas ini</p>
+        </section>
+
+        <!-- BAGIAN KIRI: GULUNGAN PESAN -->
+        <section class="message-section">
+            <button class="close-btn" id="resetBtn">Kembali &times;</button>
+            <div class="scroll-container">
+                <div class="scroll-content">
+                    <h2>Selamat Ulang Tahun</h2>
+                    
+                    <p>Selamat ulang tahun ka!! Semoga di hari ulang tahun ini, Ka Toni dikelilingi banyak hal baik yang datang dengan cara paling tulus. Aku berharap hari ini bukan hanya tentang bertambahnya usia, tapi juga tentang bertambahnya ketenangan, kekuatan, dan keyakinan dalam setiap langkah yang Ka Toni jalani.</p>
+                    
+                    <p>Aku berharap setiap hal yang sedang Ka Toni perjuangkan, baik yang terlihat oleh orang lain maupun yang diam-diam Ka Toni simpan sendiri, pelan-pelan menemukan jalannya menuju hasil yang membahagiakan. Tidak semua proses mudah, tidak semua perjalanan terasa ringan, tapi semoga Ka Toni selalu diberi kemampuan untuk melewati semuanya dengan hati yang tetap kuat dan pikiran yang tetap jernih.</p>
+                    
+                    <p>Semoga di usia yang baru ini, semakin banyak pintu kesempatan terbuka untuk Ka Toni. Kesempatan untuk berkembang, untuk mencoba hal baru, untuk melangkah lebih jauh dari yang sebelumnya pernah dibayangkan. Dan semoga setiap kesempatan itu membawa Ka Toni pada pengalaman yang bermakna, bukan hanya untuk hari ini, tapi juga untuk masa depan yang panjang di depan sana.</p>
+                    
+                    <p>Aku berharap kesehatan selalu menjadi teman setia Ka Toni, karena dengan tubuh yang kuat dan hati yang tenang, banyak hal baik bisa dijalani dengan lebih utuh. Semoga kebahagiaan hadir tidak hanya dalam momen besar, tetapi juga dalam hal-hal sederhana — dalam langkah kecil, dalam waktu tenang, dalam pencapaian yang mungkin hanya Ka Toni sendiri yang benar-benar memahami nilainya.</p>
+                    
+                    <p>Semoga setiap usaha yang Ka Toni lakukan, sekecil apa pun, selalu memiliki arti. Tidak ada langkah yang sia-sia, tidak ada perjuangan yang benar-benar hilang. Semua akan menjadi bagian dari cerita hidup yang suatu hari akan Ka Toni lihat kembali dengan rasa bangga.</p>
+                    
+                    <p>Aku berharap Ka Toni selalu dikelilingi orang-orang yang menghargai, mendukung, dan mendoakan yang terbaik. Orang-orang yang hadir bukan hanya saat semuanya mudah, tetapi juga saat keadaan tidak selalu sesuai harapan. Di usia yang baru ini, semoga Ka Toni semakin mengenal diri sendiri dengan lebih dalam. Semakin memahami apa yang ingin dicapai, apa yang ingin dijaga, dan apa yang pantas diperjuangkan. Semoga Ka Toni selalu diberi keberanian untuk melangkah maju, dan juga kebijaksanaan untuk beristirahat ketika dibutuhkan.</p>
+                    
+                    <p>Terima kasih sudah menjadi pribadi yang kuat, hangat, dan apa adanya. Ada banyak hal baik yang pantas Ka Toni terima, dan semoga tahun ini menjadi salah satu awal dari banyak hal indah yang sedang menuju ke arah Ka Toni. Aku berharap hari ini menjadi titik kecil yang menandai perjalanan panjang yang penuh makna di depan sana. Tidak harus sempurna, tidak harus selalu mudah, tapi semoga selalu membawa Ka Toni lebih dekat pada kehidupan yang Ka Toni harapkan.</p>
+                    
+                    <p class="closing">Selamat ulang tahun, Ka Toni.<br>Semoga tahun ini membawa ketenangan, harapan, dan kebahagiaan yang bertahan lama.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const envelopeBtn = document.getElementById('envelopeBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const body = document.body;
+
+            // Fungsi untuk membuka surat
+            envelopeBtn.addEventListener('click', () => {
+                // Tambahkan kelas 'active' ke body untuk memicu animasi CSS
+                body.classList.add('is-open');
+
+                // Opsional: Scroll otomatis ke paling atas surat saat terbuka
+                setTimeout(() => {
+                    const scrollContainer = document.querySelector('.scroll-container');
+                    if(scrollContainer) scrollContainer.scrollTop = 0;
+                }, 1000);
+            });
+
+            // Fungsi untuk menutup/kembali ke awal
+            resetBtn.addEventListener('click', () => {
+                body.classList.remove('is-open');
+            });
+        });
+    </script>
+</body>
+</html>
